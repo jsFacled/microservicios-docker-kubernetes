@@ -8,7 +8,8 @@ COPY ./msvc-usuarios/pom.xml .
 
 
 RUN ./mvnw clean package -Dmaven.test.skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r ./target/
-
+#Se podría descargar las dependencias también con:
+#RUN ./mvnw dependency:go-offline
 
 COPY ./msvc-usuarios/src ./src
 
