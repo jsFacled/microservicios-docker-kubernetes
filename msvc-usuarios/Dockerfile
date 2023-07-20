@@ -1,6 +1,10 @@
 FROM openjdk:17
-WORKDIR /app
-COPY ./target/msvc-usuarios-0.0.1-SNAPSHOT.jar .
+WORKDIR /app/msvc-usuarios
+COPY ./pom.xml /app
+COPY ./msvc-usuarios .
+
+RUN ./mvnw clean package -DskipTests
+
 EXPOSE 8001
 
-ENTRYPOINT ["java", "-jar", "msvc-usuarios-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "./target/msvc-usuarios-0.0.1-SNAPSHOT.jar"]
