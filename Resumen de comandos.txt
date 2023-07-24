@@ -1,0 +1,79 @@
+Algunas líneas para tener en cuenta:
+
+.\mvnw clean package -DskipTests
+
+java -jar .\target\msvc.usuarios-0.0.1-SNAPSHOT.jar
+
+docker build .
+docker images
+docker run imageID
+
+docker ps
+docker run -p puertoExterno:puertoInterno nombreOiDImagen
+
+ docker build -t usuarios . -f .\msvc-usuarios\Dockerfile
+
+docker rm nombreContenedor
+docker container prune
+docker rmi nombreImagen
+docker image prune
+
+-it  modo interactivo.
+--rm
+
+#Entro a consola:
+docker run  -p 8087:8001 --rm -it usuarios /bin/sh
+
+Detenemos con: Ctrl+C
+Salimos con: exit
+
+docker image inspect nombreImagen
+docker container inspect nombreContenedor
+
+-t <nombre imagen Nueva>:tag
+
+--name
+
+docker build -t cursos . -f .\msvc-cursos\Dockerfile
+docker build -t usuarios. -f .\msvc-usuarios\Dockerfile
+
+docker network create nombreRed
+docker network ls
+
+docker run -p 8087:8001 -d --rm --name msvc-usuarios --network spring usuarios
+docker run -p 8088:8002 -d --rm --name msvc-cursos --network spring cursos
+
+USUARIOS	8087:8001
+CURSOS		8088:8002
+Network 		spring
+
+docker run -p 5532:5432 --name postgres14 --network spring -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=msvc_cursos -d -v data-postgres:/var/lib/postgresql/data --restart=always  postgres:14-alpine
+docker run -d -p 3307:3306 --name mysql8 --network spring -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=msvc_usuarios -v data-mysql:/var/lib/mysql --restart=always mysql:8
+
+docker volume ls
+
+#	Creamos un Contenedor Utilitario
+
+docker run -it --rm --network spring mysql:8 bash
+    mysql -hmysql8 -uroot -p
+        → show databases;
+        →use msvc_usuarios; lo selecciona
+		→show tables; muestra la tabla usuarios
+        → desc usuarios; describir usuarios
+        → select * from usuarios;
+        → exit sale de mysql y exit sale del contenedor Utilitario. Y se borra por el --rm
+
+docker run -it --rm --network spring postgres:14-alpine psql -h postgres14 -U postgres
+    →  \l  listar las bases de datos en postgres
+    →  \c msvc_cursos;  Para usar el msvc
+    →  \dt;  listar tablas
+    →  \d+ cursos;  quero describir la tabla cursos
+    → select * from cursos;
+    → exit;
+
+
+--build-arg -->Arguments
+-en, --e    -->Environment
+
+
+
